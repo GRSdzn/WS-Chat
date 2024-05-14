@@ -1,0 +1,133 @@
+.header_container {
+  width: 100%;
+  background: rgba(97, 97, 97, 0.082);
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  align-items: center;
+}
+
+.messages_container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  max-height: 50dvh;
+  justify-content: flex-end;
+  min-height: 50dvh;
+  padding: 0.5rem 0;
+  overflow-y: auto;
+}
+
+.messages {
+  padding: 0.5rem 1.5rem;
+  display: flex;
+  width: 100%;
+  gap: 10px;
+}
+
+/* input */
+.message_input {
+  width: 100%;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  background: rgba(97, 97, 97, 0.082);
+  border: none;
+  border-top: 0.05rem solid rgba(156, 156, 156, 0.274);
+  border-bottom: 0.05rem solid rgba(156, 156, 156, 0.274);
+  transition: 0.3s;
+}
+
+.message_input:focus {
+  outline: none;
+}
+
+/* back button */
+.back_btn {
+  background: rgba(212, 87, 87, 0.445);
+  border: none;
+  border-radius: 0.1rem;
+  color: white;
+  font-weight: 700;
+  transition: 0.3s;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.back_btn:hover {
+  background: rgba(212, 87, 87, 0.74);
+}
+
+/* full date text */
+
+.date {
+  position: relative;
+}
+
+.date::before,
+.date::after {
+  content: '';
+  display: block;
+  width: 40%;
+  border-radius: 5rem;
+  height: 1px;
+  position: absolute;
+  background: rgba(156, 156, 156, 0.233);
+  top: 50%;
+}
+
+.date::before {
+  left: 0;
+}
+
+.date::after {
+  right: 0;
+}
+
+.date {
+  width: 500px;
+  color: rgba(156, 156, 156, 0.233);
+  text-align: center;
+}
+
+.full_date {
+  padding: 1rem 0;
+  display: flex;
+  justify-content: center;
+}
+
+/* message_form */
+
+.message_form {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  position: relative;
+}
+
+.send_btn {
+  background: rgba(87, 110, 212, 0.445);
+  border: none;
+  color: white;
+  font-weight: 700;
+  transition: 0.3s;
+  font-size: 1rem;
+  border-top: 0.05rem solid rgba(156, 156, 156, 0.274);
+  border-bottom: 0.05rem solid rgba(156, 156, 156, 0.274);
+  cursor: pointer;
+  padding: 0.8rem 1.5rem; /* Выравниваем padding кнопки с padding input */
+}
+
+.send_btn:hover {
+  background: rgba(87, 110, 212, 0.658);
+}
+
+.input {
+  width: 100%;
+  padding: 1rem;
+  background: rgba(255, 0, 0, 0);
+  font-size: 1.1rem;
+  border: 1px solid #616161;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  transition: 0.3s;
+}
