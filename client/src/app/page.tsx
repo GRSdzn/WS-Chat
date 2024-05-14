@@ -26,7 +26,7 @@ export default function Home() {
 
   return (
     <main className="main">
-      <div className="container">
+      <div className={`${styles.container} container`}>
         <h1 className="main_title">Chat</h1>
         <form className={styles.form} onSubmit={handleSubmit}>
           <div>

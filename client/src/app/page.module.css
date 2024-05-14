@@ -44,3 +44,7 @@
 .button_submit:hover {
   background-color: #4c6fbbbb;
 }
+
+.container {
+  padding: 1rem;
+}

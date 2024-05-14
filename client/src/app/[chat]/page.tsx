@@ -63,7 +63,7 @@ const ChatPage = ({ searchParams }: any) => {
           ))}
         </div>
         <form className={styles.message_form}>
-          <input value={''} placeholder="Enter your message" type="text" autoFocus className={styles.message_input} />
+          <input onChange={(e) => console.log(e.target.value)} aria-description="Enter your message" placeholder="Enter your message" type="search" autoFocus className={styles.message_input} />
           <button type="submit" className={styles.send_btn} aria-description="Send message button">
             Send
           </button>
