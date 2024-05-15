@@ -2,9 +2,8 @@
 import { FormEvent, useEffect, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
 import styles from '@/styles/chat.module.css';
-import Link from 'next/link';
-// import { getDate } from '@/features/getDate';
 import { useRouter } from 'next/navigation';
+import { getDate } from '@/features/getDate';
 
 // Create a single instance of the socket
 let socket: Socket | null = null;
@@ -75,7 +74,9 @@ const ChatPage = ({ searchParams }: any) => {
         </div>
         <div className={styles.messages_container}>
           {/* Display the current date */}
-          <div className={styles.full_date}>{/* <p className={styles.date}>{getDate()}</p> */}</div>
+          <div className={styles.full_date}>
+            <p className={styles.date}>{getDate().fullDate}</p>
+          </div>
           {/* Display messages */}
           {messages.length === 0 && <div className={styles.messages}>No messages yet</div>}
           {messages.map((msg, index) => (
