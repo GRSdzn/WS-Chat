@@ -1,69 +1,91 @@
 'use client';
-import { useEffect, useState } from 'react';
-import { io } from 'socket.io-client';
+import { FormEvent, useEffect, useState } from 'react';
+import { io, Socket } from 'socket.io-client';
 import styles from '@/styles/chat.module.css';
 import Link from 'next/link';
+// import { getDate } from '@/features/getDate';
+import { useRouter } from 'next/navigation';
+
+// Create a single instance of the socket
+let socket: Socket | null = null;
 
 const ChatPage = ({ searchParams }: any) => {
   const [messages, setMessages] = useState<any[]>([]);
+  const [message, setMessage] = useState<string>('');
   const { name, room } = searchParams;
+  const router = useRouter();
+  const URL = process.env.NEXT_PUBLIC_URL || 'localhost:5000';
 
   useEffect(() => {
-    const socket = io('http://localhost:5000'); // Поменяйте URL на ваш адрес сервера
+    // Create a new socket connection if it's not already initialized
+    if (!socket) {
+      socket = io(URL);
 
-    socket.on('connect', () => {
-      console.log('Connected to server!');
+      socket.on('connect', () => {
+        console.log('Connected to server!');
 
-      // Пример отправки сообщения на сервер
-      socket.emit('join', { name: name, room: room });
+        // Join the chat room
+        socket?.emit('join', { name: name, room: room });
 
-      // Пример получения сообщения от сервера
-      socket.on('message', (data) => {
-        console.log('Message from server:', data);
-        setMessages((prevState) => [...prevState, data]);
+        // Listen for incoming messages
+        socket?.on('message', (data) => {
+          console.log('Message from server:', data);
+          setMessages((prevMessages) => [...prevMessages, data]);
+        });
       });
-    });
+    }
 
     return () => {
-      socket.disconnect(); // Отключаемся от сервера при размонтировании компонента
+      if (socket) {
+        socket.disconnect(); // Disconnect when the component unmounts
+        socket = null; // Reset the socket instance
+      }
     };
-  }, []);
+  }, [name, room]);
 
-  console.log(messages, 'msg');
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setMessage(event.target.value);
+  };
 
-  // функция получения даты и времени
-  let date = new Date();
-  let year = date.getFullYear();
-  let month = date.getMonth();
-  let day = date.getDay();
-  let fullDate = year + '.' + month + '.' + day;
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!message || !socket) return;
+
+    // Send the message
+    socket.emit('sendMessage', { message, params: { name, room } });
+
+    // Clear the input field after sending the message
+    setMessage('');
+  };
+
+  const leftOfTheRoom = () => {
+    socket?.emit('leftRoom', { params: { name, room } });
+    router.replace('/');
+  };
 
   return (
     <section className="main">
       <div className="container">
         <div className={styles.header_container}>
           <h1>Chat Room: {room}</h1>
-          <Link href={'/'}>
-            <button className={styles.back_btn}>Back</button>
-          </Link>
+          <button className={styles.back_btn} onClick={leftOfTheRoom}>
+            Back
+          </button>
         </div>
         <div className={styles.messages_container}>
-          {/* отображения времени с лининей разделителем */}
-          <div className={styles.full_date}>
-            <p className={styles.date}>{fullDate}</p>
-          </div>
-          {/* в случае если сообщений нет */}
+          {/* Display the current date */}
+          <div className={styles.full_date}>{/* <p className={styles.date}>{getDate()}</p> */}</div>
+          {/* Display messages */}
           {messages.length === 0 && <div className={styles.messages}>No messages yet</div>}
-          {/* вывод сообщений */}
-          {messages.map((message, index) => (
+          {messages.map((msg, index) => (
             <div key={index} className={styles.messages}>
-              <strong>{message?.data?.user?.name}:</strong>
-              {message.data?.message}
+              <strong>{msg?.data?.user?.name}:</strong> {msg.data?.message}
             </div>
           ))}
         </div>
-        <form className={styles.message_form}>
-          <input onChange={(e) => console.log(e.target.value)} aria-description="Enter your message" placeholder="Enter your message" type="search" autoFocus className={styles.message_input} />
+        <form onSubmit={handleSubmit} className={styles.message_form}>
+          <input value={message} onChange={handleChange} aria-description="Enter your message" placeholder="Enter your message" type="text" autoFocus className={styles.message_input} />
           <button type="submit" className={styles.send_btn} aria-description="Send message button">
             Send
           </button>
