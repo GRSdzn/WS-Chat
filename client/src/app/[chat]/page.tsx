@@ -78,10 +78,11 @@ const ChatPage = ({ searchParams }: any) => {
             <p className={styles.date}>{getDate().fullDate}</p>
           </div>
           {/* Display messages */}
-          {messages.length === 0 && <div className={styles.messages}>No messages yet</div>}
           {messages.map((msg, index) => (
-            <div key={index} className={styles.messages}>
-              <strong>{msg?.data?.user?.name}:</strong> {msg.data?.message}
+            <div key={index} className={`${styles.messages} ${msg.data.user.name === name ? styles.user_message : styles.other_message}`}>
+              {msg.data.user.name !== name && <strong className={styles.username}>{msg?.data?.user?.name}:</strong>}
+              <p className={styles.message}>{msg.data?.message}</p>
+              {msg.data.user.name === name && <strong className={styles.username}>{msg?.data?.user?.name}:</strong>}
             </div>
           ))}
         </div>

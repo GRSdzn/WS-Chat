@@ -131,3 +131,26 @@
   margin-bottom: 1rem;
   transition: 0.3s;
 }
+
+/* username */
+
+.username {
+  color: #616161;
+}
+
+/* user message */
+
+.message {
+  color: #dfdfdf;
+  font-weight: 300;
+}
+
+.user_message {
+  align-self: flex-end;
+  justify-content: flex-end;
+}
+
+.other_message {
+  align-self: flex-start;
+  justify-content: flex-start;
+}
