@@ -1,5 +1,7 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) and server on [Node.js](https://nodejs.org/en)
 
+# Description
+This project is a real-time WebSocket chat application built with Next.js and Node.js. It allows users to engage in live chat conversations, leveraging the power of WebSockets for instant messaging. The frontend is developed with Next.js, providing a fast and responsive user interface, while the backend is powered by Node.js to handle the WebSocket
 ## Getting Started
 
 ### First, run the development client:
